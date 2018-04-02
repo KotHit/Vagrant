@@ -1,0 +1,4 @@
+box: "centos/7"
+hostname: master
+network: 10.0.10.10
+memory: 4096Mb
