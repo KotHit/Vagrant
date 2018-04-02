@@ -1,0 +1,20 @@
+VM_BOX = "centos/7"
+VM_MEMORY = 4096
+
+Vagrant.configure("2") do |config|
+
+  config.ssh.insert_key = false
+
+  config.vm.define :master do |config|
+    config.vm.box = VM_BOX
+    config.vm.hostname = "master"
+    config.vm.network :private_network, ip: "10.0.10.10"
+    config.vm.provider "virtualbox" do |v|
+      v.gui=false
+      v.memory = VM_MEMORY
+    end
+    config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/home/vagrant/.ssh/id_rsa"
+    config.vm.provision "shell", inline: "chmod 600 ~/.ssh/id_rsa", privileged: false
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+  end
+ end
